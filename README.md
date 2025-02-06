@@ -1,43 +1,67 @@
-wrangle_report
-July 11, 2022
-0.1 Reporting: wragle_report
-I firstly imported several libraries such as pandas, numpy and others needed for data wrangling.
-The twitter archive dataset provided was read it as a csv_file. I used the request method to download the image prediction flat file and subsequently read it as a tab seperated value file. I applied
-to twitter for upgrade to my twitter account to a developers account for the purpose of gaining
-the credentials needed to assess the twitter Api using Tweepy. It was granted and then I wrote
-a json file of missing datas such as tweet count and favorites count on the twitter archive table. After gathering the data, I began assessing it. Firstly, I assessed the data visually and found
-some errors such as several missing values, inconsistent name in name column and None value in
-doggo, floofer, pupper and puppo columns , all in the twitter_archive dataset. I also found visually inconsistent naming in p1,p2 and p3 columns such as mixture of small letter and Initial letter
-capitalisation, use of ’_’ and white space character, and use of ’-’ in names such as German_shorthaired_pointer, all in the image prediction dataset
-I then proceeded to assess the 3 datasets programmatically using methods such as .info(), .describe(), .sample(), .unique(), .value_counts(), .nunique(), .datatype, .isnull() and a few other methods. I found the following errors on: Quality issues Twitter_Archive Table 1.Erroneous datatypes
-(timestamp, retweeted_status_timestamp and tweet_id) 2.Nulls represented as None in name,
-doggo, floofer, pupper and puppo columns 3.A number of ratings in the rating_numerator are
-inaccurate compared with the text value 4.All of the a tag in source column should be replaced
-with its corresponding value or content 5.urls included in text column 6.Some names in the name
-column are in lowercase and appears not to be actual names such as (’not’, ’an’,’this’, ’this’, ’all’)
-Image_Prediction Table 1.Consistency in breed names of dogs 2.tweet_id datatype should be a
-string and not interger ?3. Only one prediction data with a value of True and with the highest confidence level will be included in the dataframe Retweets Table 1.tweet_id should be a
-string Tidiness issues 1.name, doggo, floofer, pupper and puppo columns in Twitter_Archive Table should be merged and called dog_stages 2.merge p1, p2, p3 related columns for confidence
-level and extract to new columns highest confidence level and dog breed 3.rating_numerator and
-rating_denominator columns should be merged and named ratings 4.Since only original ratings
-are required and no retweet, the following columns with values in their rows will be removed particularly ( retweeted_status and in_reply_to_status_id) 5.All columns not useful for this analysis
-will be removed 6.All dataframe will be merged into one master dataframe
-I then proceeded to made a copy of all 3 datasets and proceeded to clean the data frame using
-several methods such as .loc(), .drop(), for loops, if statements, .merge(), .replace(), regex and
-several other methods
+# Data Wrangling and Analysis Report
 
+## Overview
+This project involves wrangling, cleaning, and analyzing a Twitter archive dataset, an image prediction dataset, and a retweets dataset. The goal was to process the data, identify key issues, and derive insights from the cleaned dataset using various methods and visualizations.
 
-0.1 Report: act_report
-After cleaning the dataset I then merged all 3 dataset into 1 master dataframe as per course requirements. I then began analysing the dataset for insights. I began by importing several libraries
-also, particularly needed for visualization, they include seasborn, matplotlib,.pyplot, matplotlib
-inline and plotly.express. I didn’t use all of the libraries imported due to the lateness already
-in submission of this report. I used the groupby method to assess one variable against another.
-Alongside the groupby method, I used functions like .count(), .sort_values(). I discovered an insight on the master dataset which is that the top dog_breeds based on the highest number of
-tweets are Golden Retriever, Pembroke, Labrador Retriever, Chihuahua, Pug, Pomeranian and so
-on as in the dataframe above. Then I also checked for number of tweets made using the dog stages
-terminologies and I found that 202 tweets were made having a value for dog stages.
-Then I checked for any correlation between the favorites count and the retweet count using
-the pandas .corr() method and I found that the favorites count and retweet count have a strong
-correlation. I proceeded to run a visualization of this finding using a scatter plot and it confirmed
-the insight to be correct. Although there is a strong correlation between the two variables there is
-no explanation on causation which will require further analysis
+## Data Wrangling Process
+
+### Step 1: Data Import & Preparation
+**Libraries Used**: I imported essential libraries like `pandas`, `numpy`, and others for data wrangling and cleaning.
+  **Datasets**: 
+  The **Twitter archive dataset** was read from a CSV file.
+    The **image prediction dataset** was downloaded using the `requests` method and saved as a tab-separated value (TSV) file.
+    I applied for and received access to the Twitter API using Tweepy to gather additional data, such as tweet counts and favorite counts, and then stored this information in a JSON file.
+
+### Step 2: Initial Data Assessment
+I assessed the datasets both visually and programmatically using methods like `.info()`, `.describe()`, `.sample()`, `.unique()`, `.value_counts()`, `.isnull()`, and others.
+  
+#### Issues Identified:
+**Twitter Archive Dataset**:
+  1. Erroneous datatypes (e.g., `timestamp`, `retweeted_status_timestamp`, `tweet_id`).
+  2. Missing values in `name`, `doggo`, `floofer`, `pupper`, and `puppo` columns.
+  3. Inaccurate ratings in the `rating_numerator` column compared with the text.
+  4. The `source` column contains HTML tags that need to be replaced with their content.
+  5. URLs present in the `text` column.
+  6. Inconsistent names in the `name` column, including words like 'not', 'an', 'this', which are not valid names.
+  
+  **Image Prediction Dataset**:
+  1. Inconsistent dog breed names (capitalization and formatting issues).
+  2. The `tweet_id` should be a string instead of an integer.
+  3. Only one prediction (with the highest confidence level) should be included for each tweet.
+
+  **Retweets Dataset**:
+  1. The `tweet_id` should be a string, not an integer.
+
+#### Tidiness Issues:
+1. Merge `name`, `doggo`, `floofer`, `pupper`, and `puppo` columns into one column called `dog_stages`.
+2. Merge the `p1`, `p2`, and `p3` related columns for breed predictions and extract the highest confidence level and breed into new columns.
+3. Combine `rating_numerator` and `rating_denominator` into a single `ratings` column.
+4. Remove unnecessary columns such as `retweeted_status` and `in_reply_to_status_id`.
+5. Drop all other irrelevant columns for this analysis.
+6. Merge all three datasets into one master dataframe for analysis.
+
+### Step 3: Data Cleaning
+I made copies of the three datasets and applied various cleaning methods including `.loc()`, `.drop()`, `.merge()`, `.replace()`, regex, and conditional statements (e.g., `if` statements) to fix the identified issues.
+
+## Analysis and Insights
+
+### Step 1: Data Merging
+After cleaning the datasets, I merged all three into one master dataframe as required.
+
+### Step 2: Data Visualization & Analysis
+**Libraries Used**: I imported visualization libraries such as `seaborn`, `matplotlib`, and `plotly.express`.
+  **Analysis**: 
+  I used the `groupby` method to analyze variables against one another, and used functions like `.count()`, `.sort_values()`, and others to gather insights.
+    I found that the top dog breeds based on the highest number of tweets were **Golden Retriever**, **Pembroke**, **Labrador Retriever**, **Chihuahua**, **Pug**, and **Pomeranian**.
+    Additionally, I analyzed the number of tweets containing various dog stage terms (e.g., "doggo", "pupper"), and found that there were **202 tweets** featuring these terms.
+
+### Step 3: Correlation Analysis
+I performed a correlation analysis between **favorites count** and **retweet count** using the `.corr()` method in pandas.
+  **Finding**: There is a **strong correlation** between the favorites count and retweet count. 
+    **Visualization**: I used a scatter plot to confirm this relationship, which further verified the correlation. However, while the correlation is strong, causality cannot be determined, and further analysis would be required.
+
+## Conclusion
+The data wrangling and cleaning process allowed me to address various issues in the datasets, including missing values, inconsistent formatting, and erroneous datatypes.
+The merged and cleaned dataset provided valuable insights, including trends in popular dog breeds and correlations between key variables (favorites count and retweet count).
+Visualizations confirmed some of these insights and highlighted areas that could be further explored for deeper analysis.
+
